@@ -88,3 +88,31 @@ phpbook=# \d t_person
  id      | integer               |
  name    | character varying(10) |
 ```
+
+Удалить таблицу:
+DROP TABLE t_person;
+
+
+Удалить таблицу:
+
+`DROP TABLE t_person;`
+
+Выполнить код из файла:
+
+```
+[E:\work\soft\cmder]psql -U postgres -e phpbook < E:\Users\tol_pc\Desktop\postgresql\b1\ch06\code.sql
+CREATE TABLE t_person(id serial,
+                        name text,
+                        zip_code int4,
+                        city text,
+                                PRIMARY KEY (id));
+CREATE TABLE
+CREATE TABLE t_children(id serial,
+                        pers_id int4,
+                        name text,
+                                PRIMARY KEY (id));
+CREATE TABLE
+
+
+[E:\work\soft\cmder]
+```
