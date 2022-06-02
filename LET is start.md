@@ -116,3 +116,35 @@ CREATE TABLE
 
 [E:\work\soft\cmder]
 ```
+Выполнить код из файла:
+```
+psql -U postgres -e phpbook < E:\Users\tol_pc\Desktop\postgresql\b1\ch06\code.sql
+
+DROP TABLE t_person;
+DROP TABLE t_children;
+```
+
+Добавление комментация к таблице:
+
+Подключиться к базе данных:
+```
+$ psql -U postgres phpbook
+COMMENT ON TABLE t_person IS 'Это комментарий к таблице';
+COMMENT ON COLUMN t_person.zip_code IS 'This is a zip code';
+```
+
+Пример простой команды INSERT:
+
+`psql -U postgres -e phpbook < E:\Users\tol_pc\Desktop\postgresql\b1\ch06\insert_into_t_person.sql`
+
+
+```
+INSERT INTO t_person (name, zip_code, city) VALUES ('Hans',1150,'Vienna');
+INSERT INTO t_person (name, zip_code) VALUES ('Epl',1060);
+```
+SELECT
+```
+SELECT * FROM t_person;
+SELECT city, id, name, zip_code FROM t_person;
+
+```
