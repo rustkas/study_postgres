@@ -146,5 +146,145 @@ SELECT
 ```
 SELECT * FROM t_person;
 SELECT city, id, name, zip_code FROM t_person;
+SELECT t_person.* FROM t_person;
 
+```
+
+#### WHERE
+
+`SELECT city, id, name, zip_code FROM t_person WHERE id=1;`
+
+#### Вставка специальных символов
+
+`INSERT INTO t_person (name) VALUES ('o''Connor'); SELECT * FROM t_person;`
+
+
+#### Обработка значений NULL
+
+```
+SELECT 
+  id,
+  name,
+  zip_code,
+  city
+FROM 
+  public.t_person
+WHERE  public.t_person.city IS NULL;
+```
+```
+SELECT 
+  id,
+  name,
+  zip_code,
+  city
+FROM 
+  public.t_person
+WHERE  public.t_person.city = '';
+```
+
+Это выражение не даёт правильный результат:
+
+```
+SELECT 
+  id,
+  name,
+  zip_code,
+  city
+FROM 
+  public.t_person
+WHERE  public.t_person.city = NULL;
+```
+
+Ставные условия
+
+`SELECT city, id, name, zip_code FROM t_person WHERE zip_code=1150 AND city='Vienna';`
+
+`SELECT city, id, name, zip_code FROM t_person WHERE zip_code=1150 AND id=1;`
+
+`SELECT city, id, name, zip_code FROM t_person WHERE zip_code=1150 AND id>=1;`
+
+`SELECT city, id, name, zip_code FROM t_person WHERE name='Hans' OR name='Epl';`
+
+`SELECT city, id, name, zip_code FROM t_person WHERE (name='Hans' OR name='Epl') AND city='Vienna';`
+
+Следующая запись приведёт к тому же результату:
+
+`SELECT city, id, name, zip_code FROM t_person WHERE name='Hans' OR (name='Epl' AND city='Vienna');`
+
+### Форматирование вывода
+```
+SELECT 'Hello World!' AS "info";
+
+SELECT name || 'lives in ' || city FROM t_person WHERE id=1;
+SELECT name || ' lives in ' || city FROM t_person  WHERE id=1;
+SELECT name || ' lives in ' || city AS 'caption' FROM t_person  WHERE name || ' lives in ' || city='Hans lives in Vienna';
+SELECT name || ' lives in ' || city AS caption FROM t_person  WHERE name || ' lives in ' || city='Hans lives in Vienna';
+
+#### LIMIN и OFFSET
+```
+SELECT * FROM t_person;
+SELECT * FROM t_person LIMIT 2;
+SELECT * FROM t_person LIMIT 2 OFFSET 1;
+```
+
+#### Временные таблицы
+```
+CREATE TEMPORARY TABLE tmp_data(id integer, data text);
+SELECT * FROM tmp_data;
+INSERT INTO tmp_data (id, data) VALUES (1,'one');
+INSERT INTO tmp_data (id, data) VALUES (2,'two');
+INSERT INTO tmp_data (id, data) VALUES (3,'three');
+INSERT INTO tmp_data (id, data) VALUES (4,'four');
+INSERT INTO tmp_data (id, data) VALUES (5,'five');
+SELECT * FROM tmp_data;
+```
+
+```
+DROP TABLE tmp_data;
+```
+
+Временные таблицы и значение типа serial
+
+
+CREATE TEMPORARY TABLE tmp_data(id serial, data text);
+INSERT INTO tmp_data (data) VALUES ('one');
+INSERT INTO tmp_data (data) VALUES ('two');
+INSERT INTO tmp_data (data) VALUES ('three');
+INSERT INTO tmp_data (data) VALUES ('four');
+INSERT INTO tmp_data (data) VALUES ('five');
+SELECT * FROM tmp_data;
+
+#### SELECT INTO
+
+```
+SELECT *FROM t_person;
+SELECT * INTO TEMPORARY TABLE tmp_person FROM t_person;
+SELECT * FROM tmp_person;
+```
+#### Обновление и удаление
+
+\h UPDATE
+
+DO backup:
+
+```
+SELECT * INTO TEMPORARY TABLE tmp_person FROM t_person;
+```
+
+```
+UPDATE t_person SET city='Mauerbach' WHERE id=2;
+SELECT * FROM t_person WHERE id=2;
+DELETE FROM t_person WHERE id>3;
+```
+
+#### \h TRUNCATE
+
+```
+TRUNCATE TABLE t_person RESTART IDENTITY;
+SELECT * FROM t_person;
+```
+
+Restore from backup:
+```
+INSERT INTO t_person SELECT * FROM tmp_person;
 ```
